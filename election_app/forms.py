@@ -28,4 +28,6 @@ class Candidate_registraion_form(FlaskForm):
 	def validate_candidate(self, name):
 		cand = Candidate.query.filter_by(name=name.data).first()
 		if cand:
-			raise ValidationError("Candidate of this name already exist")
+			flash("Candidate of this name already exist")
+			return 1
+		return 0

@@ -22,7 +22,7 @@ def register():
 			current_candidate = Candidate.query.filter_by(party=form.party.data).first()
 			current_candidate.votes += 1
 			db.session.commit()
-			flash("Your vote has been submitted.")
+			flash("Your vote has been submitted.",'success')
 			return redirect(url_for('home'))
 
 	return render_template("register.html", title='Vote', form=form)
@@ -31,10 +31,11 @@ def register():
 def add_candidate():
 	form  = Candidate_registraion_form()
 	if form.validate_on_submit():
-		new_cand = Candidate(name=form.name.data, party=form.party.data)
-		db.session.add(new_cand)
-		db.session.commit()
-		flash("Candidate has been added.")
-		return redirect(url_for('home'))
+		if not form.validate_candidate(form.name):
+			new_cand = Candidate(name=form.name.data, party=form.party.data)
+			db.session.add(new_cand)
+			db.session.commit()
+			flash("Candidate has been added.", 'success')
+			return redirect(url_for('home'))
 
 	return render_template("candidate.html", title='Candidate Registration', form=form)
