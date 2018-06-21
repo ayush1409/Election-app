@@ -5,7 +5,20 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Vote Here</legend>
-                <div class="form-group">
+				<div class="form-group">
+                    {{ form.aadhar_number.label(class="form-control-label") }}
+                    {% if form.aadhar_number.errors %}
+                        {{ form.aadhar_number(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.aadhar_number.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.aadhar_number(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
                     {{ form.name.label(class="form-control-label") }}
                     {% if form.name.errors %}
                         {{ form.name(class="form-control form-control-lg is-invalid") }}
@@ -16,19 +29,6 @@
                         </div>
                     {% else %}
                         {{ form.name(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.address.label(class="form-control-label") }}
-                    {% if form.address.errors %}
-                        {{ form.address(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.address.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.address(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
                 <div class="form-group">

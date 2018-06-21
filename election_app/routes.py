@@ -16,16 +16,18 @@ def home():
 def register():
 	form = RegistrationForm()
 	if form.validate_on_submit():
-		new_voter = Voter(voter_name=form.name.data, address=form.address.data, voting_party=form.party.data)
-		db.session.add(new_voter)
-		current_candidate = Candidate.query.filter_by(party=form.party.data).first()
-		current_candidate.votes += 1
-		db.session.commit()
-		flash("Your vote has been submitted.")
+		if not form.validate_voter(form.aadhar_number):
+			new_voter = Voter(aadhar_number=form.aadhar_number.data, voter_name=form.name.data, voting_party=form.party.data)
+			db.session.add(new_voter)
+			current_candidate = Candidate.query.filter_by(party=form.party.data).first()
+			current_candidate.votes += 1
+			db.session.commit()
+			flash("Your vote has been submitted.")
+			return redirect(url_for('home'))
 
 	return render_template("register.html", title='Vote', form=form)
 
-@app.route("/new_candidate")
+@app.route("/new_candidate", methods=['GET','POST'])
 def add_candidate():
 	form  = Candidate_registraion_form()
 	if form.validate_on_submit():

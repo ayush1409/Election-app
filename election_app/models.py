@@ -11,8 +11,8 @@ class Candidate(db.Model, UserMixin):
 		return "Candidate({},{},{})".format(self.name, self.party, self.votes)
 
 class Voter(db.Model, UserMixin):
-	voter_name = db.Column(db.String(40),unique=False, nullable=True, primary_key=True)
-	address = db.Column(db.String(120),unique=False, nullable=False)
+	aadhar_number = db.Column(db.String(12), unique=True, nullable=False, primary_key=True)
+	voter_name = db.Column(db.String(40),unique=False, nullable=True)
 	voting_party = db.Column(db.String(20),unique=False, nullable=False)
 
 	def __repr__(self):
