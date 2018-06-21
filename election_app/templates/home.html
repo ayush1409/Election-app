@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<thead>
+	<tr>
+		<th>Name</th>
+		<th>Party</th>
+		<th>Votes</th>
+	</tr>
+</thead>
+<tbody>
+	{% for candidate_i in total_candidates %}
+		<tr>
+			<td>{{ candidate_i.name }}</td>
+			<td>{{ candidate_i.party }}</td>
+			<td>{{ candidate_i.votes }}</td>
+		</tr>
+	{% endfor %}
+</tbody>
+{% endblock content %}
