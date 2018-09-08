@@ -10,7 +10,15 @@ from flask import flash
 class RegistrationForm(FlaskForm):
 	name = StringField('Name', validators=[DataRequired(), Length(min=2, max=30)])
 	aadhar_number = StringField('Aadhar Number', validators=[DataRequired(), Length(min=12,max=12)])
-	party = StringField('Party', validators=[DataRequired()])
+
+	all_parties = []
+	all_cand = Candidate.query.all()
+
+	for cand in all_cand :
+		cand_party = cand.party
+		all_parties.append((cand_party, cand_party))
+
+	party = SelectField('Party', validators=[DataRequired()], choices=all_parties)
 	submit = SubmitField('Vote')
 
 	def validate_voter(self, aadhar_number):
@@ -28,4 +36,6 @@ class Candidate_registraion_form(FlaskForm):
 	def validate_candidate(self, name):
 		cand = Candidate.query.filter_by(name=name.data).first()
 		if cand:
-			raise ValidationError("Candidate of this name already exist")
+			flash("Candidate of this name already exist")
+			return 1
+		return 0
